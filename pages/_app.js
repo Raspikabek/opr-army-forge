@@ -9,6 +9,7 @@ import ReleaseNotes from "../views/components/ReleaseNotes";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useMemo } from "react";
 import { setDarkMode } from "../data/appSlice";
+import { appWithTranslation } from 'next-i18next';
 
 // TODO: Better place for global generic things to go?
 pluralise.addSingularRule(/Fuses$/i, "Fuse"); // Spear-Fuses -> Spear-Fuse
@@ -91,4 +92,5 @@ const ThemedApp = ({ Component, pageProps }) => {
   );
 };
 
-export default dynamic(() => Promise.resolve(App), { ssr: false });
+
+export default dynamic(() => Promise.resolve(appWithTranslation(App)), { ssr: false });

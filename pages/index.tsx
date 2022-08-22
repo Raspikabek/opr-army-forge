@@ -5,8 +5,10 @@ import { Box, Button, Container, createTheme, Stack } from "@mui/material";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import AddIcon from "@mui/icons-material/Add";
 import { GetServerSidePropsContext } from "next";
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext, locale) {
   const host = context.req.headers.host;
   const vercelProd = "opr-army-forge.vercel.app";
   const isVercelProd = host?.toLocaleLowerCase() === vercelProd;
@@ -18,11 +20,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           destination: "https://army-forge.onepagerules.com/",
         },
       }
-    : { props: {} };
+    : { props: {
+      ...(await serverSideTranslations(context.locale ? context.locale : 'en', ['common']))
+    } };
 }
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useTranslation('common');
 
   return (
     <Container className={styles.homeContainer + " container"}>
@@ -46,7 +51,7 @@ export default function Home() {
               className="mb-4"
               onClick={() => router.push("/gameSystem")}
             >
-              <AddIcon /> <span style={{ fontWeight: 600 }}>&nbsp;Create A New List</span>
+              <AddIcon /> <span style={{ fontWeight: 600 }}>&nbsp;{t('createNewList')}</span>
             </Button>
             <Button
               variant="outlined"

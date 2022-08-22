@@ -66,7 +66,7 @@ export default function UpgradePanelHeader() {
               onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 // if enter or escape key pressed, exit edit mode
                 if (e.keyCode === ENTER_KEY || e.keyCode === ESCAPE_KEY) {
-                  saveName(e.target.value, true);
+                  saveName((e.target as any).value, true);
                 }
               }}
             />
